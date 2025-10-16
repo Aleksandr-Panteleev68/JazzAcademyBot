@@ -1,0 +1,25 @@
+CREATE TABLE users (
+    id BIGINT PRIMARY KEY, 
+    username TEXT NOT NULL, 
+    status TEXT NOT NULL DEFAULT 'pending',
+    joined_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE events (
+    id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL, 
+    deadline TIMESTAMP,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE reactions (
+    user_id BIGINT NOT NULL, 
+    event_id TEXT NOT NULL, 
+    choice TEXT NOT NULL, 
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(user_id, event_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
+);
